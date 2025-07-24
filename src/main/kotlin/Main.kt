@@ -9,6 +9,7 @@ fun main() {
             4. Update student info
             5. Remove student
             6. Show average GPA of passed students
+            7. Export students data
             0. Exit
             Enter your choice: 
         """.trimIndent())
@@ -20,6 +21,7 @@ fun main() {
             4 -> manager.updateStudent()
             5 -> manager.removeStudent()
             6 -> manager.averageGpaOfPassed()
+            7 -> manager.exportStudentsData()
             0 -> {
                 println("Goodbye!")
                 return

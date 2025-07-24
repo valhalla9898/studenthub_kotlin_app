@@ -1,15 +1,17 @@
 fun main() {
     val manager = StudentManager()
     while (true) {
-        println("\n--- StudentHub Menu ---")
-        println("1. Add student")
-        println("2. View all students")
-        println("3. Filter students")
-        println("4. Update student info")
-        println("5. Remove student")
-        println("6. Show average GPA of passed students")
-        println("0. Exit")
-        print("Enter your choice: ")
+        print("""
+            --- StudentHub Menu ---
+            1. Add student
+            2. View all students
+            3. Filter students
+            4. Update student info
+            5. Remove student
+            6. Show average GPA of passed students
+            0. Exit
+            Enter your choice: 
+        """.trimIndent())
 
         when (readLine()?.toIntOrNull()) {
             1 -> manager.addStudent()

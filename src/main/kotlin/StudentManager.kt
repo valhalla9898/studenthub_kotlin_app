@@ -1,6 +1,5 @@
 class StudentManager {
     private val students = mutableListOf<Student>()
-    private var nextId = 1
 
     fun addStudent() {
         println("Enter name:")
@@ -28,7 +27,7 @@ class StudentManager {
         println("Enter notes (or leave blank):")
         val notes = readLine()
 
-        val student = Student(nextId++, name, grade, gpa, status, notes)
+        val student = Student(Student.nextId++, name, grade, gpa, status, notes)
         students.add(student)
         println("Student added successfully.")
     }

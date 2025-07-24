@@ -5,4 +5,8 @@ data class Student(
     var gpa: Double?,
     var status: String?,
     var notes: String?
-)
+) {
+    companion object {
+        var nextId: Int = 1
+    }
+}

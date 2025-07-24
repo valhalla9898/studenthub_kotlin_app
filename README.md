@@ -19,11 +19,11 @@ StudentHub is a simple Kotlin console application for managing student data.
 
 ### Class Diagram
 
-![Class Diagram](diagrams\class_diagram.png)
+![Class Diagram](diagrams/class_diagram.png)
 
 ### Sequence diagram for adding a new student
 
-![Sequence Diagram](diagrams\sequence_diagram.png)
+![Sequence Diagram](diagrams/sequence_diagram.png)
 
 ## Project Files
 

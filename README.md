@@ -4,16 +4,26 @@ StudentHub is a simple Kotlin console application for managing student data.
 
 ## Features
 
-- Add new students  
-- View all students  
+- Add new students
+- View all students
 - Filter students by:
-  - Name  
-  - Grade  
-  - Status  
-  - GPA range  
-- Update student information  
-- Remove students by ID  
+  - Name
+  - Grade
+  - Status
+  - GPA range
+- Update student information
+- Remove students by ID
 - Calculate average GPA of passed students
+
+## Diagrams
+
+### Class Diagram
+
+![Class Diagram](diagrams\class_diagram.png)
+
+### Sequence diagram for adding a new student
+
+![Sequence Diagram](diagrams\sequence_diagram.png)
 
 ## Project Files
 
@@ -45,11 +55,10 @@ Show average GPA of passed students
 Exit
 Enter your choice:
 
-
 ## Requirements
 
-- Kotlin 1.9 or higher  
-- IntelliJ IDEA or any Kotlin-supported IDE  
+- Kotlin 1.9 or higher
+- IntelliJ IDEA or any Kotlin-supported IDE
 - Basic terminal/console to interact with the program
 
 ## Notes
@@ -57,7 +66,3 @@ Enter your choice:
 - Grade and GPA are optional (nullable)
 - Status can be any text (e.g., Passed, Failed, Pending)
 - Student IDs are auto-incremented starting from 1
-
-## License
-
-MIT License – free to use, modify, and share

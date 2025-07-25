@@ -1,4 +1,18 @@
 fun main() {
+    val adminUsername = "admin"
+    val adminPassword = "1234"
+
+    println("Welcome to StudentHub Admin Panel")
+    print("Enter username: ")
+    val username = readLine()
+    print("Enter password: ")
+    val password = readLine()
+
+    if (username != adminUsername || password != adminPassword) {
+        println("Access denied. Exiting.")
+        return
+    }
+    println("Login successful. Welcome, admin!")
     val manager = StudentManager()
     while (true) {
         print("""

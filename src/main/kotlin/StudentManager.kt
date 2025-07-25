@@ -163,7 +163,11 @@ class StudentManager {
             .map { it.gpa!! }
             .average()
 
-        println("Average GPA of passed students: $avg")
+        if (avg.isNaN()) {
+            println("No passed students with GPA found.")
+        } else {
+            println("Average GPA of passed students: $avg")
+        }
     }
 
     fun exportStudentsData() {

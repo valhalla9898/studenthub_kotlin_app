@@ -1,7 +1,10 @@
-import kotlin.collections.remove
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.io.File
 
 class StudentManager {
     private val students = mutableListOf<Student>()
+    private val json = Json { prettyPrint = true }
 
     fun addStudent() {
         println("Enter name:")
@@ -178,5 +181,53 @@ class StudentManager {
             .average()
 
         println("Average GPA of passed students: $avg")
+    }
+
+    fun exportStudentsData() {
+        print("""
+            1) Export to CSV
+            2) Export to JSON
+            0) Back to main menu
+            Enter your choice:
+        """.trimIndent())
+
+        when (readLine()?.toIntOrNull()) {
+            1 -> exportToCsv()
+            2 -> exportToJson()
+            else -> println("Invalid choice.")
+        }
+    }
+
+    fun exportToCsv() {
+        println("Enter file name to export to (or leave blank for students.csv):")
+        val input = readLine()
+        val fileName = if (input.isNullOrBlank()) "students.csv" else input
+
+        val file = File(fileName)
+        file.printWriter().use { out ->
+            out.println("id,name,grade,gpa,status,notes")
+            for (student in students) {
+                val line = listOf(
+                    student.id,
+                    "\"${student.name.replace("\"", "\"\"")}\"",
+                    student.grade?.toString() ?: "",
+                    student.gpa?.toString() ?: "",
+                    student.status?.let { "\"${it.replace("\"", "\"\"")}\"" } ?: "",
+                    student.notes?.let { "\"${it.replace("\"", "\"\"")}\"" } ?: ""
+                ).joinToString(",")
+                out.println(line)
+            }
+        }
+        println("Exported ${students.size} students to $fileName")
+    }
+
+    fun exportToJson() {
+        println("Enter file name to export to (or leave blank for students.json):")
+        val input = readLine()
+        val fileName = if (input.isNullOrBlank()) "students.json" else input
+
+        val jsonString = json.encodeToString(students)
+        File(fileName).writeText(jsonString)
+        println("Exported ${students.size} students to $fileName")
     }
 }

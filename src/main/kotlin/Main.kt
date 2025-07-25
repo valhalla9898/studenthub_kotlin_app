@@ -1,12 +1,16 @@
-fun main() {
-    val adminUsername = "admin"
-    val adminPassword = "1234"
+val adminUsername = "admin"
+val adminPassword = "1234"
 
+fun String.promptNullable(): String? {
+    print(this)
+    val input = readLine()
+    return if (input.isNullOrBlank()) null else input
+}
+
+fun main() {
     println("Welcome to StudentHub Admin Panel")
-    print("Enter username: ")
-    val username = readLine()
-    print("Enter password: ")
-    val password = readLine()
+    val username = "Enter username: ".promptNullable()
+    val password = "Enter password: ".promptNullable()
 
     if (username != adminUsername || password != adminPassword) {
         println("Access denied. Exiting.")
@@ -15,7 +19,8 @@ fun main() {
     println("Login successful. Welcome, admin!")
     val manager = StudentManager()
     while (true) {
-        print("""
+        print(
+            """
             --- StudentHub Menu ---
             1. Add student
             2. View all students
@@ -26,7 +31,8 @@ fun main() {
             7. Export students data
             0. Exit
             Enter your choice: 
-        """.trimIndent())
+        """.trimIndent()
+        )
 
         when (readLine()?.toIntOrNull()) {
             1 -> manager.addStudent()

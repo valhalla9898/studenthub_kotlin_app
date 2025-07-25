@@ -7,11 +7,9 @@ class StudentManager {
     private val json = Json { prettyPrint = true }
 
     fun addStudent() {
-        println("Enter name:")
         var name: String
         while (true) {
-            println("Enter name (or type 'back' to cancel):")
-            val input = readLine()
+            val input = "Enter name (or type 'back' to cancel): ".promptNullable()
             if (input == null || input.equals("back", ignoreCase = true)) return
             if (input.isNotBlank()) {
                 name = input
@@ -20,13 +18,11 @@ class StudentManager {
             println("Name cannot be blank.")
         }
 
-        println("Enter grade (or leave blank):")
-        val grade = readLine()?.toIntOrNull()
+        val grade = "Enter grade (or leave blank): ".promptNullable()?.toIntOrNull()
 
         var gpa: Double? = null
         while (true) {
-            println("Enter GPA (0-4, or leave blank):")
-            val input = readLine()
+            val input = "Enter GPA (0-4, or leave blank): ".promptNullable()
             if (input.isNullOrBlank()) break
             val value = input.toDoubleOrNull()
             if (value != null && value in 0.0..4.0) {
@@ -36,11 +32,8 @@ class StudentManager {
             println("Invalid GPA. Please enter a number between 0 and 4, or leave blank.")
         }
 
-        println("Enter status (or leave blank):")
-        val status = readLine()
-
-        println("Enter notes (or leave blank):")
-        val notes = readLine()
+        val status = "Enter status (or leave blank): ".promptOrDefault("passed")
+        val notes = "Enter notes (or leave blank): ".promptNullable()
 
         val student = Student(Student.nextId++, name, grade, gpa, status, notes)
         students.add(student)
@@ -57,40 +50,38 @@ class StudentManager {
     }
 
     fun filterStudents() {
-        println("""
+        println(
+            """
             Filter by: 
             1) Name
             2) Grade 
             3) Status 
             4) GPA Range
-            Enter your choice: """.trimIndent())
+            Enter your choice: 
+            """.trimIndent()
+        )
         when (readLine()?.toIntOrNull()) {
             1 -> {
-                println("Enter name:")
-                val name = readLine()
+                val name = "Enter name:".promptNullable()
                 students.filter { it.name.contains(name ?: "", ignoreCase = true) }
                     .forEach { println(it) }
             }
 
             2 -> {
-                println("Enter grade:")
-                val grade = readLine()?.toIntOrNull()
+                val grade = "Enter grade:".promptOrDefault("/").toIntOrNull()
                 students.filter { it.grade == grade }
                     .forEach { println(it) }
             }
 
             3 -> {
-                println("Enter status:")
-                val status = readLine()
+                val status = "Enter status:".promptNullable()
                 students.filter { it.status.equals(status, ignoreCase = true) }
                     .forEach { println(it) }
             }
 
             4 -> {
-                println("Enter min GPA:")
-                val min = readLine()?.toDoubleOrNull() ?: 0.0
-                println("Enter max GPA:")
-                val max = readLine()?.toDoubleOrNull() ?: 4.0
+                val min = "Enter min GPA:".promptOrDefault("0.0").toDouble()
+                val max = "Enter max GPA:".promptOrDefault("4.0").toDouble()
                 students.filter { it.gpa != null && it.gpa!! in min..max }
                     .forEach { println(it) }
             }
@@ -100,15 +91,13 @@ class StudentManager {
     }
 
     fun updateStudent() {
-        println("Enter student ID to update:")
-        val id = readLine()?.toIntOrNull()
+        val id = "Enter student ID to update: ".promptNullable()?.toIntOrNull()
         val student = students.find { it.id == id }
 
         if (student != null) {
             // Name update with validation
             while (true) {
-                println("Enter new name (${student.name}) (or leave blank to keep current):")
-                val input = readLine()
+                val input = "Enter new name (${student.name}) (or leave blank to keep current): ".promptNullable()
                 if (input.isNullOrBlank()) break
                 if (input.isNotBlank()) {
                     student.name = input
@@ -117,8 +106,7 @@ class StudentManager {
             }
 
             // Grade update
-            println("Enter new grade (${student.grade}) (or leave blank to keep current):")
-            val gradeInput = readLine()
+            val gradeInput = "Enter new grade (${student.grade}) (or leave blank to keep current): ".promptNullable()
             if (!gradeInput.isNullOrBlank()) {
                 val grade = gradeInput.toIntOrNull()
                 if (grade != null) student.grade = grade
@@ -127,8 +115,7 @@ class StudentManager {
 
             // GPA update with validation
             while (true) {
-                println("Enter new GPA (${student.gpa}) (0-4, or leave blank to keep current):")
-                val input = readLine()
+                val input = "Enter new GPA (${student.gpa}) (0-4, or leave blank to keep current): ".promptNullable()
                 if (input.isNullOrBlank()) break
                 val value = input.toDoubleOrNull()
                 if (value != null && value in 0.0..4.0) {
@@ -139,13 +126,11 @@ class StudentManager {
             }
 
             // Status update
-            println("Enter new status (${student.status}):")
-            val status = readLine()
+            val status = "Enter new status (${student.status}): ".promptNullable()
             if (!status.isNullOrBlank()) student.status = status
 
             // Notes update
-            println("Enter new notes (${student.notes}):")
-            val notes = readLine()
+            val notes = "Enter new notes (${student.notes}): ".promptNullable()
             if (!notes.isNullOrBlank()) student.notes = notes
 
             println("Student updated.")
@@ -155,15 +140,13 @@ class StudentManager {
     }
 
     fun removeStudent() {
-        println("Enter student ID to remove:")
-        val id = readLine()?.toIntOrNull()
+        val id = "Enter student ID to remove: ".promptNullable()?.toIntOrNull()
         val student = students.find { it.id == id }
 
         if (student != null) {
             println("Are you sure you want to remove this student?")
             println(student)
-            println("Type 'yes' to confirm, or anything else to cancel:")
-            val confirmation = readLine()
+            val confirmation = "Type 'yes' to confirm, or anything else to cancel: ".promptNullable()
             if (confirmation.equals("yes", ignoreCase = true)) {
                 students.remove(student)
                 println("Student removed.")
@@ -184,12 +167,14 @@ class StudentManager {
     }
 
     fun exportStudentsData() {
-        print("""
+        print(
+            """
             1) Export to CSV
             2) Export to JSON
             0) Back to main menu
             Enter your choice:
-        """.trimIndent())
+        """.trimIndent()
+        )
 
         when (readLine()?.toIntOrNull()) {
             1 -> exportToCsv()
@@ -198,22 +183,39 @@ class StudentManager {
         }
     }
 
-    fun exportToCsv() {
-        println("Enter file name to export to (or leave blank for students.csv):")
+    // Helper extension function to prompt for input with a default value
+    fun String.promptOrDefault(default: String): String {
+        print(this)
         val input = readLine()
-        val fileName = if (input.isNullOrBlank()) "students.csv" else input
+        return if (input.isNullOrBlank()) default else input
+    }
+
+    // Helper extension function to escape CSV values
+    fun String.escapeCsv(): String = "\"${this.replace("\"", "\"\"")}\""
+
+    // Helper function to convert any value to a CSV field
+    fun Any?.toCsvField(): String = when (this) {
+        null -> ""
+        is String -> this.escapeCsv()
+        else -> this.toString()
+    }
+
+    fun exportToCsv() {
+        val fileName =
+            "Enter file name to export to (or leave blank for students.csv): "
+                .promptOrDefault("students.csv")
 
         val file = File(fileName)
         file.printWriter().use { out ->
             out.println("id,name,grade,gpa,status,notes")
             for (student in students) {
                 val line = listOf(
-                    student.id,
-                    "\"${student.name.replace("\"", "\"\"")}\"",
-                    student.grade?.toString() ?: "",
-                    student.gpa?.toString() ?: "",
-                    student.status?.let { "\"${it.replace("\"", "\"\"")}\"" } ?: "",
-                    student.notes?.let { "\"${it.replace("\"", "\"\"")}\"" } ?: ""
+                    student.id.toCsvField(),
+                    student.name.toCsvField(),
+                    student.grade.toCsvField(),
+                    student.gpa.toCsvField(),
+                    student.status.toCsvField(),
+                    student.notes.toCsvField()
                 ).joinToString(",")
                 out.println(line)
             }
@@ -222,9 +224,9 @@ class StudentManager {
     }
 
     fun exportToJson() {
-        println("Enter file name to export to (or leave blank for students.json):")
-        val input = readLine()
-        val fileName = if (input.isNullOrBlank()) "students.json" else input
+        val fileName =
+            "Enter file name to export to (or leave blank for students.json): "
+                .promptOrDefault("students.json")
 
         val jsonString = json.encodeToString(students)
         File(fileName).writeText(jsonString)
